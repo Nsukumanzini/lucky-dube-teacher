@@ -1,4 +1,6 @@
-# Lucky Dube — Teacher web application
+# lucky-dube-teacher
+
+**Lucky Dube — Teacher web application**
 
 A separate Flutter web frontend owned by **Optimal Growth Technologies SA**. This application has teacher profiles only. There is no administration role, role selector, account provisioning, staff management, school configuration editor or learner-registration feature.
 
@@ -70,3 +72,5 @@ See `docs/VALIDATION.md` for actual results. Only web was targeted for this appl
 ## Hosted teacher workspace
 
 Vercel project: `lucky-dube-teachers`, separate from the learner project. Deployment is a static Flutter release uploaded directly through the connected Vercel API. The teacher source is maintained independently of the learner repository. Source is also supplied in `lucky_dube_teacher_source.zip`.
+
+Source repository: https://github.com/Nsukumanzini/lucky-dube-teacher (public).
