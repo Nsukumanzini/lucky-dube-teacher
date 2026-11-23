@@ -23,6 +23,10 @@ Quick sign-in profiles:
 
 Password: **Learn123!**. Sign-in validates the teacher identity and password locally. Remember me controls session restoration. Language can be selected before sign-in and in the header. The teacher app uses the distinct storage key `lucky_dube_teacher_v1`, keeping its data separate from the learner app.
 
+## OG Vibes Staff design foundation
+
+The teacher workspace adapts the owner’s [OG Vibes Staff source](https://github.com/Nsukumanzini/og-vibes-staff): academic navigation, a personal teaching hero, metric cards, class portfolio, agenda/deadline panels, quick actions and a recent submission table. The academic library and marking queue support class/status filters, search and pagination. Full-screen workspace search stays within the signed-in teacher’s assigned classes. See `docs/DESIGN_SOURCE.md` for source mapping and preserved boundaries.
+
 ## Teacher workflows
 
 - Dashboard: assigned classes, learner count, pending marking and published lessons, calculated from repository records.

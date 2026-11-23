@@ -1,6 +1,6 @@
 # Teacher application scope
 
-Implemented: separate teacher-only sign-in, assigned class boundaries, dashboard, rosters, lesson/resource/task/rehearsal/reminder/announcement editors, local text/image attachments, marking drafts and published results, progress calculations, dated attendance, class messaging, calendar agenda, arts preparation checklist, English/isiZulu UI, text size and confirmed profile-scoped reset.
+Implemented: separate teacher-only sign-in, assigned class boundaries, OG Vibes Staff-inspired dashboard, academic sidebar/profile toolbar, class portfolio, published agenda/deadlines, submission table, class-scoped full-screen search, filtered/paginated academic library and marking queue, rosters, lesson/resource/task/rehearsal/reminder/announcement editors, local text/image attachments, marking drafts and published results, progress calculations, dated attendance, class messaging, calendar agenda, arts preparation checklist, English/isiZulu UI, text size and confirmed profile-scoped reset.
 
 No administration: no global user management, school setup, grade/class allocation editing, staff provisioning, permissions management, fees, payments or system-wide record control.
 

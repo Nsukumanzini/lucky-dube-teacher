@@ -81,28 +81,62 @@ class _TeacherAppState extends ConsumerState<TeacherApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         theme: ThemeData(
-            useMaterial3: true,
-            colorScheme:
-                ColorScheme.fromSeed(seedColor: const Color(0xff2563eb))
-                    .copyWith(
-                        primary: const Color(0xff2563eb),
-                        surface: Colors.white,
-                        onSurface: const Color(0xff22334b)),
-            scaffoldBackgroundColor: const Color(0xfff7faff),
-            appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.white, scrolledUnderElevation: 0),
-            cardTheme: CardThemeData(
-                elevation: 0,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(color: Color(0xffe2e8f0)))),
-            inputDecorationTheme: InputDecorationTheme(
-                filled: true,
-                fillColor: const Color(0xfff0f5fb),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none))),
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff2869f0))
+              .copyWith(
+                  primary: const Color(0xff2869f0),
+                  surface: Colors.white,
+                  onSurface: const Color(0xff17233a)),
+          scaffoldBackgroundColor: const Color(0xfff2f5fa),
+          appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              scrolledUnderElevation: 0,
+              shape: Border(bottom: BorderSide(color: Color(0xffdce5ef)))),
+          dividerTheme:
+              const DividerThemeData(color: Color(0xffe5ebf3), thickness: 1),
+          cardTheme: CardThemeData(
+              elevation: 0,
+              color: Colors.white,
+              margin: const EdgeInsets.only(bottom: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                  side: const BorderSide(color: Color(0xffdce5ef)))),
+          filledButtonTheme: FilledButtonThemeData(
+              style: FilledButton.styleFrom(
+                  minimumSize: const Size(48, 46),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(11)))),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+              style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(48, 44),
+                  side: const BorderSide(color: Color(0xffdce5ef)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(11)))),
+          chipTheme: ChipThemeData(
+              side: const BorderSide(color: Color(0xffdce5ef)),
+              backgroundColor: Colors.white,
+              selectedColor: const Color(0xffe8f0ff),
+              labelStyle: const TextStyle(fontSize: 11),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9))),
+          navigationBarTheme: const NavigationBarThemeData(
+              backgroundColor: Colors.white,
+              indicatorColor: Color(0xffe8f0ff),
+              labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: 10))),
+          inputDecorationTheme: InputDecorationTheme(
+              filled: true,
+              fillColor: const Color(0xfff9fbfd),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11),
+                  borderSide: const BorderSide(color: Color(0xffd9e2ed))),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11),
+                  borderSide: const BorderSide(color: Color(0xffd9e2ed)))),
+        ),
         builder: (context, child) => MediaQuery(
             data: MediaQuery.of(context).copyWith(
                 textScaler: TextScaler.linear(

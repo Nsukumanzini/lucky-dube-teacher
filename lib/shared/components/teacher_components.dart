@@ -92,8 +92,8 @@ class Panel extends StatelessWidget {
             LText(title,
                 style: Theme.of(context)
                     .textTheme
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w700)),
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.w800)),
             const SizedBox(height: 16),
             child
           ])));
@@ -110,7 +110,7 @@ class PageHeading extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium
-                ?.copyWith(fontWeight: FontWeight.w800)),
+                ?.copyWith(fontWeight: FontWeight.w800, letterSpacing: -.6)),
         const SizedBox(height: 8),
         LText(subtitle,
             style: const TextStyle(color: Color(0xff64748b), height: 1.5))
