@@ -112,7 +112,7 @@ class TeachingDashboard extends StatelessWidget {
                             letterSpacing: 1.5)))
               ]),
               const SizedBox(height: 18),
-              LText('Good morning, ${r.teacher.name.split(' ').first} 👋',
+              LText('Good morning, ${r.teacher.name.split(' ').first}',
                   style: TextStyle(
                       fontSize: box.maxWidth < 550 ? 26 : 32,
                       fontWeight: FontWeight.w800,

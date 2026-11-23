@@ -1,4 +1,4 @@
-# Teacher web app validation — 22 November 2026
+# Teacher web app validation — 23 November 2026
 
 Environment: Flutter 3.50.1 stable, Dart 3.14.0, Linux.
 
@@ -16,3 +16,5 @@ Only web is targeted. No native platform build or real school-service integratio
 Unused learner translation entries were removed from the independent teacher catalogue; all tests still passed and the release build succeeded after that size reduction.
 
 OG Vibes Staff adaptation: additional regression tests cover repository-derived dashboard metrics, class-scoped search/input retention, academic library pagination, class-filtered marking navigation, mobile sidebar navigation and 140% text at 360 and 1024 pixels. All checks passed.
+
+The web release was rebuilt after a final greeting text adjustment. Production browser rendering and bundle-hash matching were verified for the immediately preceding release after including CanvasKit, fonts, and Flutter assets in its Vercel deployment. A Vercel follow-up containing the small greeting adjustment was queued at the time of documentation; see DEPLOYMENT.md.
