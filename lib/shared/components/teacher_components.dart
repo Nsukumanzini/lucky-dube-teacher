@@ -55,10 +55,12 @@ class TeacherPage extends StatelessWidget {
           child: Align(
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1080),
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.sizeOf(context).width >= 1280
+                          ? 1240
+                          : 1080),
                   child: Padding(
-                      padding: EdgeInsets.all(
-                          MediaQuery.sizeOf(context).width < 600 ? 16 : 32),
+                      padding: EdgeInsets.all(_pageGutter(context)),
                       child: scroll
                           ? SingleChildScrollView(
                               child: SizedBox(
@@ -76,6 +78,13 @@ class TeacherPage extends StatelessWidget {
                       spacing: 10,
                       runSpacing: 8,
                       children: actions))));
+
+  double _pageGutter(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    if (width < 600) return 16;
+    if (width < 1000) return 24;
+    return 32;
+  }
 }
 
 class Panel extends StatelessWidget {
