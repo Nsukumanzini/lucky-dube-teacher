@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/localization/app_language.dart';
 import '../../shared/components/staff_components.dart';
+import '../../shared/components/premium_surface.dart';
 import 'teaching_queries.dart';
 
 /// Responsive, actionable adaptation of OG Vibes Staff's recent activity table.
@@ -21,32 +22,36 @@ class SubmissionTable extends StatelessWidget {
       if (box.maxWidth < 650) {
         return Column(children: [
           for (final e in entries)
-            Card(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () => open(e),
-                    child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(e.learner.name,
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w800)),
-                              const SizedBox(height: 7),
-                              Text('${e.task.classId} • ${e.task.title}',
-                                  style: const TextStyle(
-                                      color: muted, fontSize: 11, height: 1.6)),
-                              const SizedBox(height: 12),
-                              Row(children: [
-                                Flexible(child: StatusPill(e.status)),
-                                const Spacer(),
-                                const Icon(Icons.arrow_forward,
-                                    size: 18, color: blue)
-                              ]),
-                            ]))))
+            Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: LiquidGlassSurface(
+                    padding: EdgeInsets.zero,
+                    child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () => open(e),
+                        child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(e.learner.name,
+                                      style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w800)),
+                                  const SizedBox(height: 7),
+                                  Text('${e.task.classId} • ${e.task.title}',
+                                      style: const TextStyle(
+                                          color: muted,
+                                          fontSize: 11,
+                                          height: 1.6)),
+                                  const SizedBox(height: 12),
+                                  Row(children: [
+                                    Flexible(child: StatusPill(e.status)),
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_forward,
+                                        size: 18, color: blue)
+                                  ]),
+                                ])))))
         ]);
       }
       Widget cell(String text, int flex, {bool strong = false}) => Expanded(

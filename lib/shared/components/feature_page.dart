@@ -3,6 +3,7 @@ import '../../app/localization/app_language.dart';
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'premium_surface.dart';
 
 /// A full route with responsive reading width and keyboard-safe action area.
 class FeaturePage extends StatelessWidget {
@@ -18,6 +19,7 @@ class FeaturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+            flexibleSpace: const LiquidGlassBar(),
             title: title,
             leading: BackButton(onPressed: () {
               if (Navigator.of(context).canPop()) {

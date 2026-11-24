@@ -1,6 +1,7 @@
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import '../../app/localization/app_language.dart';
+import 'premium_surface.dart';
 
 const ink = Color(0xff17233a);
 const muted = Color(0xff68758b);
@@ -54,48 +55,36 @@ class DashboardPanel extends StatelessWidget {
       this.action,
       this.onAction});
   @override
-  Widget build(BuildContext context) => Material(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-            side: const BorderSide(color: line),
-            borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-            padding: const EdgeInsets.all(22),
-            child: SizedBox(
-                width: double.infinity,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                  LText(title,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w800,
-                                          color: ink)),
-                                  const SizedBox(height: 5),
-                                  LText(subtitle,
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          color: muted,
-                                          height: 1.5)),
-                                ])),
-                            if (action != null)
-                              TextButton(
-                                  onPressed: onAction,
-                                  child: LText(action!,
-                                      style: const TextStyle(fontSize: 12))),
-                          ]),
-                      const SizedBox(height: 20),
-                      child,
-                    ]))),
-      );
+  Widget build(BuildContext context) => LiquidGlassSurface(
+      padding: const EdgeInsets.all(22),
+      child: SizedBox(
+          width: double.infinity,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    LText(title,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: ink)),
+                    const SizedBox(height: 5),
+                    LText(subtitle,
+                        style: const TextStyle(
+                            fontSize: 12, color: muted, height: 1.5)),
+                  ])),
+              if (action != null)
+                TextButton(
+                    onPressed: onAction,
+                    child:
+                        LText(action!, style: const TextStyle(fontSize: 12))),
+            ]),
+            const SizedBox(height: 20),
+            child,
+          ])));
 }
 
 class DashboardColumns extends StatelessWidget {
@@ -132,8 +121,9 @@ class MetricCard extends StatelessWidget {
       required this.color,
       required this.onTap});
   @override
-  Widget build(BuildContext context) => Card(
-        margin: EdgeInsets.zero,
+  Widget build(BuildContext context) => LiquidGlassSurface(
+        padding: EdgeInsets.zero,
+        borderRadius: BorderRadius.circular(18),
         child: InkWell(
             borderRadius: BorderRadius.circular(18),
             onTap: onTap,

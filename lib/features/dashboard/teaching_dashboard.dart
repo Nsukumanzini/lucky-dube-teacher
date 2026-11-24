@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/localization/app_language.dart';
 import '../../data/teacher_repository.dart';
 import '../../shared/components/staff_components.dart';
+import '../../shared/components/premium_surface.dart';
 import 'teaching_queries.dart';
 import 'submission_table.dart';
 
@@ -316,8 +317,8 @@ class TeachingDashboard extends StatelessWidget {
                       width: box.maxWidth < 700
                           ? box.maxWidth
                           : (box.maxWidth - 28) / 3,
-                      child: Card(
-                          margin: EdgeInsets.zero,
+                      child: LiquidGlassSurface(
+                          padding: EdgeInsets.zero,
                           child: InkWell(
                               borderRadius: BorderRadius.circular(18),
                               onTap: () => navigate(action.$4),

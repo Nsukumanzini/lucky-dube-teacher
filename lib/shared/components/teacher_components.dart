@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../main.dart';
 import '../../app/localization/app_language.dart';
+import 'premium_surface.dart';
 
 class TeacherLanguage extends ConsumerWidget {
   const TeacherLanguage({super.key});
@@ -42,6 +43,7 @@ class TeacherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
+          flexibleSpace: const LiquidGlassBar(),
           leading: BackButton(onPressed: () {
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
@@ -70,9 +72,10 @@ class TeacherPage extends StatelessWidget {
           ? null
           : SafeArea(
               top: false,
-              child: Container(
-                  color: Colors.white,
+              child: LiquidGlassSurface(
                   padding: const EdgeInsets.all(16),
+                  borderRadius: BorderRadius.zero,
+                  blur: 20,
                   child: Wrap(
                       alignment: WrapAlignment.end,
                       spacing: 10,
@@ -92,9 +95,9 @@ class Panel extends StatelessWidget {
   final Widget child;
   const Panel(this.title, this.child, {super.key});
   @override
-  Widget build(BuildContext context) => Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: LiquidGlassSurface(
           padding: const EdgeInsets.all(22),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

@@ -5,6 +5,7 @@ import '../../app/localization/app_language.dart';
 import '../../data/teacher_repository.dart';
 import '../../shared/components/teacher_components.dart';
 import '../../shared/components/staff_components.dart';
+import '../../shared/components/premium_surface.dart';
 import 'teaching_queries.dart';
 import 'submission_table.dart';
 
@@ -131,8 +132,8 @@ class _TeachingLibraryState extends State<TeachingLibrary> {
           for (final item in visible)
             SizedBox(
                 width: (box.maxWidth - 16 * (columns - 1)) / columns,
-                child: Card(
-                    margin: EdgeInsets.zero,
+                child: LiquidGlassSurface(
+                    padding: EdgeInsets.zero,
                     child: InkWell(
                         borderRadius: BorderRadius.circular(18),
                         onTap: () => context

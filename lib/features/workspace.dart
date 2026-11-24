@@ -9,6 +9,7 @@ import '../shared/components/teacher_components.dart';
 import '../shared/components/learner_visuals.dart';
 import '../shared/components/teacher_shell.dart';
 import '../shared/components/staff_components.dart';
+import '../shared/components/premium_surface.dart';
 import 'dashboard/teaching_dashboard.dart';
 import 'dashboard/teaching_library.dart';
 
@@ -91,6 +92,7 @@ class _TeacherLoginState extends ConsumerState<TeacherLogin> {
         ]));
     return Scaffold(
         appBar: AppBar(
+            flexibleSpace: const LiquidGlassBar(),
             title: const LText('Lucky Dube • Teachers',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -284,8 +286,8 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
             for (final c in r.classes)
               SizedBox(
                   width: (box.maxWidth - 16 * (count - 1)) / count,
-                  child: Card(
-                      margin: EdgeInsets.zero,
+                  child: LiquidGlassSurface(
+                      padding: EdgeInsets.zero,
                       child: Padding(
                           padding: const EdgeInsets.all(22),
                           child: Column(
@@ -440,7 +442,8 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
         const PageHeading('Attendance',
             'Complete and save a register for each teaching class'),
         for (final c in r.classes)
-          Card(
+          LiquidGlassSurface(
+              padding: EdgeInsets.zero,
               child: ActionTile(
                   c.label,
                   '${r.attendance(c.id, '2026-11-26').length} / ${r.roster(c.id).length} statuses recorded today',
@@ -493,7 +496,8 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
           Builder(builder: (context) {
             final messages =
                 List<dynamic>.from(r.value('messages-${c.id}', []));
-            return Card(
+            return LiquidGlassSurface(
+                padding: EdgeInsets.zero,
                 child: InkWell(
                     borderRadius: BorderRadius.circular(18),
                     onTap: () => context.push('/conversation/${c.id}'),
@@ -577,7 +581,8 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
         const Panel('A little breathing room',
             LText('No activities scheduled for this date.')),
       for (final e in events)
-        Card(
+        LiquidGlassSurface(
+            padding: EdgeInsets.zero,
             child: ActionTile(
                 e.title,
                 '${e.classId} • ${e.kind} • ${e.status}',

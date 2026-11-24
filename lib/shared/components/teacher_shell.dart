@@ -4,6 +4,7 @@ import '../../app/localization/app_language.dart';
 import '../../data/teacher_repository.dart';
 import 'teacher_components.dart';
 import 'staff_components.dart';
+import 'premium_surface.dart';
 
 /// Adapts OG Vibes Staff's academic sidebar, profile toolbar and mobile navigation.
 class TeacherShell extends StatefulWidget {
@@ -41,8 +42,10 @@ class _TeacherShellState extends State<TeacherShell> {
     final groups = {'TEACHING WORKSPACE': navigation.keys.toList()};
     final initials =
         repository.teacher.name.split(' ').map((s) => s[0]).take(2).join();
-    Widget menu() => Material(
-        color: Colors.white,
+    Widget menu() => LiquidGlassSurface(
+        padding: EdgeInsets.zero,
+        borderRadius: BorderRadius.zero,
+        blur: 20,
         child: Column(children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(20, 22, 16, 18),
@@ -170,12 +173,12 @@ class _TeacherShellState extends State<TeacherShell> {
                         style: TextStyle(fontSize: 11))),
               ])),
         ]));
-    Widget topbar() => Container(
+    Widget topbar() => LiquidGlassSurface(
+        width: double.infinity,
         height: 72,
         padding: EdgeInsets.symmetric(horizontal: wide ? 28 : 8),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            border: Border(bottom: BorderSide(color: line))),
+        borderRadius: BorderRadius.zero,
+        blur: 22,
         child: Row(children: [
           if (!wide)
             IconButton(
@@ -229,15 +232,22 @@ class _TeacherShellState extends State<TeacherShell> {
         ]));
     return Scaffold(
         key: shell,
-        drawer:
-            wide ? null : Drawer(width: 280, child: SafeArea(child: menu())),
+        drawer: wide
+            ? null
+            : Drawer(
+                width: 280,
+                backgroundColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                child: SafeArea(child: menu())),
         body: SafeArea(
             child: Row(children: [
           if (wide)
             Container(
                 width: 248,
-                decoration: const BoxDecoration(
-                    border: Border(right: BorderSide(color: line))),
+                decoration: BoxDecoration(
+                    color: const Color(0x12ffffff),
+                    border: Border(
+                        right: BorderSide(color: line.withValues(alpha: .6)))),
                 child: menu()),
           Expanded(
               child: Column(children: [
@@ -268,32 +278,44 @@ class _TeacherShellState extends State<TeacherShell> {
         ])),
         bottomNavigationBar: wide
             ? null
-            : NavigationBar(
-                selectedIndex: ['home', 'resources', 'assignments', 'messages']
-                        .contains(page)
-                    ? ['home', 'resources', 'assignments', 'messages']
-                        .indexOf(page)
-                    : 4,
-                onDestinationSelected: (i) {
-                  if (i == 4) {
-                    shell.currentState!.openDrawer();
-                  } else {
-                    navigate(
-                        ['home', 'resources', 'assignments', 'messages'][i]);
-                  }
-                },
-                destinations: [
-                    for (final key in [
+            : LiquidGlassSurface(
+                padding: EdgeInsets.zero,
+                borderRadius: BorderRadius.zero,
+                blur: 22,
+                child: NavigationBar(
+                    selectedIndex: [
                       'home',
                       'resources',
                       'assignments',
-                      'messages',
-                      'more'
-                    ])
-                      NavigationDestination(
-                          icon: Icon(key == 'more' ? Icons.menu : icon(key)),
-                          label: tr(context,
-                              key == 'more' ? 'More' : navigation[key]!))
-                  ]));
+                      'messages'
+                    ].contains(page)
+                        ? ['home', 'resources', 'assignments', 'messages']
+                            .indexOf(page)
+                        : 4,
+                    onDestinationSelected: (i) {
+                      if (i == 4) {
+                        shell.currentState!.openDrawer();
+                      } else {
+                        navigate([
+                          'home',
+                          'resources',
+                          'assignments',
+                          'messages'
+                        ][i]);
+                      }
+                    },
+                    destinations: [
+                      for (final key in [
+                        'home',
+                        'resources',
+                        'assignments',
+                        'messages',
+                        'more'
+                      ])
+                        NavigationDestination(
+                            icon: Icon(key == 'more' ? Icons.menu : icon(key)),
+                            label: tr(context,
+                                key == 'more' ? 'More' : navigation[key]!))
+                    ])));
   }
 }

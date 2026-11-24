@@ -8,6 +8,7 @@ import '../main.dart';
 import '../data/teacher_repository.dart';
 import '../app/localization/app_language.dart';
 import '../shared/components/teacher_components.dart';
+import '../shared/components/premium_surface.dart';
 
 Widget unavailable() => const TeacherPage(
     title: 'Content unavailable',
@@ -597,7 +598,8 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
           ]),
           const SizedBox(height: 20),
           for (final learner in r.roster(widget.classId))
-            Card(
+            LiquidGlassSurface(
+                padding: EdgeInsets.zero,
                 child: Padding(
                     padding: const EdgeInsets.all(14),
                     child: Row(children: [
