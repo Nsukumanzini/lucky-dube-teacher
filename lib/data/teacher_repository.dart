@@ -87,6 +87,7 @@ abstract class TeacherRepository extends ChangeNotifier {
   List<TeachingClass> get classes;
   List<TeachingRecord> get records;
   Future<bool> signIn(String id, String password, bool remember);
+  Future<void> quickSignIn(bool remember);
   Future<void> saveRecord(TeachingRecord record);
   Future<void> saveMark(MarkRecord mark);
   Future<void> saveAttendance(
@@ -177,6 +178,13 @@ class LocalTeacherRepository extends TeacherRepository {
     state['remember'] = remember;
     await persist();
     return true;
+  }
+
+  @override
+  Future<void> quickSignIn(bool remember) async {
+    state['session'] = teachers.first.id;
+    state['remember'] = remember;
+    await persist();
   }
 
   Future<void> signOut() async {

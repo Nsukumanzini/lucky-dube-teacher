@@ -20,15 +20,7 @@ class TeacherLogin extends ConsumerStatefulWidget {
 }
 
 class _TeacherLoginState extends ConsumerState<TeacherLogin> {
-  final id = TextEditingController(), password = TextEditingController();
-  bool show = false, remember = true;
-  String? error;
-  @override
-  void dispose() {
-    id.dispose();
-    password.dispose();
-    super.dispose();
-  }
+  bool remember = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,44 +30,22 @@ class _TeacherLoginState extends ConsumerState<TeacherLogin> {
         Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           const LText('Plan with purpose. Support every learner.'),
           const SizedBox(height: 24),
-          TextField(
-              controller: id,
-              decoration:
-                  InputDecoration(labelText: tr(context, 'Teacher number'))),
-          const SizedBox(height: 14),
-          TextField(
-              controller: password,
-              obscureText: !show,
-              decoration: InputDecoration(
-                  labelText: tr(context, 'Password'),
-                  suffixIcon: IconButton(
-                      tooltip: tr(context, 'Show password'),
-                      onPressed: () => setState(() => show = !show),
-                      icon: Icon(show
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined)))),
+          LText('Continue as ${repo.teachers.first.name}',
+              style: const TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.w700, color: ink)),
+          const SizedBox(height: 8),
+          const LText('Open your teaching workspace instantly.'),
           CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               value: remember,
               onChanged: (v) => setState(() => remember = v!),
               title: const LText('Remember me')),
-          if (error != null)
-            LText(error!, style: const TextStyle(color: Colors.red)),
           FilledButton(
               onPressed: () async {
-                if (!await repo.signIn(
-                        id.text.trim(), password.text, remember) &&
-                    mounted) {
-                  setState(
-                      () => error = 'Check your teacher number and password.');
-                }
+                await repo.quickSignIn(remember);
               },
-              child: const LText('Sign in')),
+              child: const LText('Sign in instantly')),
           const SizedBox(height: 24),
-          const SizedBox(height: 16),
-          const LText('Use the teacher account assigned to you by your school.',
-              style: TextStyle(fontSize: 12, height: 1.5)),
-          const SizedBox(height: 16),
           const LText(LocalTeacherRepository.owner,
               style: TextStyle(fontSize: 11))
         ]));
