@@ -165,15 +165,8 @@ class LocalTeacherRepository extends TeacherRepository {
     await persist();
   }
 
-  String get language => currentTeacher == null
-      ? (state['language'] as String? ?? 'en')
-      : (value('language', state['language'] ?? 'en') as String);
-  Future<void> setLanguage(String code) async {
-    if (!['en', 'zu'].contains(code)) return;
-    state['language'] = code;
-    if (currentTeacher != null) state[scoped('language')] = code;
-    await persist();
-  }
+  String get language => 'en';
+  Future<void> setLanguage(String code) async {}
 
   @override
   Future<bool> signIn(String id, String password, bool remember) async {
@@ -197,6 +190,7 @@ class LocalTeacherRepository extends TeacherRepository {
       for (final c in classes)
         for (final kind in [
           'Lesson',
+          'Classwork',
           'Assignment',
           'Resource',
           'Announcement',
@@ -207,22 +201,26 @@ class LocalTeacherRepository extends TeacherRepository {
               teacherId: teacher.id,
               classId: c.id,
               kind: kind,
-              title: kind == 'Lesson'
-                  ? '${teacher.subject}: ideas into practice'
-                  : kind == 'Assignment'
-                      ? '${teacher.subject}: Term 4 task'
-                      : kind == 'Resource'
-                          ? '${teacher.subject}: original revision notes'
-                          : kind == 'Announcement'
-                              ? 'Prepare for the final learning week'
-                              : 'Creative showcase rehearsal',
-              body: kind == 'Assignment'
-                  ? 'Explain the key idea in your own words. Give a worked example and reflect on how you checked your answer. Submit a written response.'
+              title: kind == 'Classwork'
+                  ? '${teacher.subject}: class activity'
                   : kind == 'Lesson'
-                      ? 'Learning objectives: identify the key concept, apply it in an example and explain your reasoning.\n\nStarter: recall prior learning (5 minutes).\nExplore: work through an original example (15 minutes).\nPractise: complete a paired activity (15 minutes).\nReflect: write an exit ticket (5 minutes).'
-                      : kind == 'Resource'
-                          ? 'Original study guide\n\n1. Read the question carefully.\n2. Identify what is known.\n3. Explain your method and check your answer.\n\nCreated by Optimal Growth Technologies SA.'
-                          : 'Bring your workbook and learning materials. We will review progress and prepare for the next activity.',
+                      ? '${teacher.subject}: ideas into practice'
+                      : kind == 'Assignment'
+                          ? '${teacher.subject}: Term 4 task'
+                          : kind == 'Resource'
+                              ? '${teacher.subject}: original revision notes'
+                              : kind == 'Announcement'
+                                  ? 'Prepare for the final learning week'
+                                  : 'Creative showcase rehearsal',
+              body: kind == 'Classwork'
+                  ? 'Use the lesson notes to complete this in-class activity. Show your working, discuss your approach and share one reflection with the class.'
+                  : kind == 'Assignment'
+                      ? 'Explain the key idea in your own words. Give a worked example and reflect on how you checked your answer. Submit a written response.'
+                      : kind == 'Lesson'
+                          ? 'Learning objectives: identify the key concept, apply it in an example and explain your reasoning.\n\nStarter: recall prior learning (5 minutes).\nExplore: work through an original example (15 minutes).\nPractise: complete a paired activity (15 minutes).\nReflect: write an exit ticket (5 minutes).'
+                          : kind == 'Resource'
+                              ? 'Original study guide\n\n1. Read the question carefully.\n2. Identify what is known.\n3. Explain your method and check your answer.\n\nCreated by Optimal Growth Technologies SA.'
+                              : 'Bring your workbook and learning materials. We will review progress and prepare for the next activity.',
               date: kind == 'Assignment' ? '2026-11-27' : '2026-11-26',
               status: 'Published')
     ];
@@ -253,6 +251,7 @@ class LocalTeacherRepository extends TeacherRepository {
         !['Draft', 'Published'].contains(record.status) ||
         ![
           'Lesson',
+          'Classwork',
           'Assignment',
           'Resource',
           'Announcement',
@@ -363,12 +362,6 @@ class LocalTeacherRepository extends TeacherRepository {
         List<dynamic>.from(value('messages-$classId', []))
             .map((v) => Map<String, dynamic>.from(v)));
     list.add({'sender': 'You', 'body': body.trim(), 'time': '10:20'});
-    list.add({
-      'sender': 'Practice reply',
-      'body':
-          'Thank you. We will review the learning materials before the next lesson.',
-      'time': '10:21'
-    });
     await put('messages-$classId', list);
   }
 

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import '../../app/localization/app_language.dart';
 import '../../data/teacher_repository.dart';
-import 'teacher_components.dart';
 import 'staff_components.dart';
 import 'premium_surface.dart';
 
@@ -214,7 +213,6 @@ class _TeacherShellState extends State<TeacherShell> {
                 onPressed: () => navigate('search'),
                 icon: const Icon(Icons.search)),
           const SizedBox(width: 8),
-          const TeacherLanguage(),
           if (roomy) ...[
             const SizedBox(width: 12),
             InkWell(
@@ -266,8 +264,7 @@ class _TeacherShellState extends State<TeacherShell> {
                                 const SizedBox(height: 30),
                                 const Divider(),
                                 const SizedBox(height: 12),
-                                const LText(
-                                    'Optimal Growth Technologies SA • Changes are saved on this device. This workspace is not connected to school services.',
+                                const LText('Lucky Dube • Teacher workspace',
                                     style: TextStyle(
                                         fontSize: 10,
                                         color: muted,
@@ -283,32 +280,23 @@ class _TeacherShellState extends State<TeacherShell> {
                 borderRadius: BorderRadius.zero,
                 blur: 22,
                 child: NavigationBar(
-                    selectedIndex: [
-                      'home',
-                      'resources',
-                      'assignments',
-                      'messages'
-                    ].contains(page)
-                        ? ['home', 'resources', 'assignments', 'messages']
-                            .indexOf(page)
-                        : 4,
+                    selectedIndex:
+                        ['home', 'resources', 'work', 'messages'].contains(page)
+                            ? ['home', 'resources', 'work', 'messages']
+                                .indexOf(page)
+                            : 4,
                     onDestinationSelected: (i) {
                       if (i == 4) {
                         shell.currentState!.openDrawer();
                       } else {
-                        navigate([
-                          'home',
-                          'resources',
-                          'assignments',
-                          'messages'
-                        ][i]);
+                        navigate(['home', 'resources', 'work', 'messages'][i]);
                       }
                     },
                     destinations: [
                       for (final key in [
                         'home',
                         'resources',
-                        'assignments',
+                        'work',
                         'messages',
                         'more'
                       ])

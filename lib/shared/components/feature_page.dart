@@ -88,8 +88,7 @@ class _EntryScreenState extends State<EntryScreen> {
                     LText(widget.title,
                         style: Theme.of(context).textTheme.headlineMedium),
                     const SizedBox(height: 12),
-                    const LText(
-                        'Your information is saved on this device only.'),
+                    const LText('Add the details needed for this request.'),
                     const SizedBox(height: 28),
                     TextFormField(
                         controller: controller,

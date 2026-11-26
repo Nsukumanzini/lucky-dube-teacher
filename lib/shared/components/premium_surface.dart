@@ -29,7 +29,7 @@ class _LiquidBackdropPainter extends CustomPainter {
         Offset(size.width, size.height),
         dark
             ? const [Color(0xff101729), Color(0xff111d35), Color(0xff102b32)]
-            : const [Color(0xfff9fbff), Color(0xffeff5ff), Color(0xffeef9f7)],
+            : const [Color(0xfff9fbff), Color(0xffeff5ff), Color(0xfff4f8ff)],
         const [0, .56, 1],
       );
     canvas.drawRect(rect, base);
@@ -55,9 +55,9 @@ class _LiquidBackdropPainter extends CustomPainter {
       orb(Offset(size.width * .03, size.height * .08), size.width * .9,
           const Color(0x2d7ea5ff));
       orb(Offset(size.width * .98, size.height * .37), size.width * .74,
-          const Color(0x2b53d3c0));
+          const Color(0x223b82f6));
       orb(Offset(size.width * .32, size.height * .99), size.width * .68,
-          const Color(0x22aa9dff));
+          const Color(0x184f7fd5));
     }
   }
 

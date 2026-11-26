@@ -78,7 +78,7 @@ class ClassScreen extends ConsumerWidget {
                     in r.records.where((record) => record.classId == id))
                   ActionTile(
                       record.title,
-                      '${record.kind} • ${record.status}',
+                      '${displayRecordKind(record.kind)} • ${record.status}',
                       Icons.auto_stories_outlined,
                       () => context
                           .push('/record/${Uri.encodeComponent(record.id)}'))
@@ -127,6 +127,7 @@ class _RecordEditorState extends ConsumerState<RecordEditor> {
     }
     if (![
       'Lesson',
+      'Classwork',
       'Assignment',
       'Resource',
       'Announcement',
@@ -164,10 +165,7 @@ class _RecordEditorState extends ConsumerState<RecordEditor> {
       await r.saveRecord(record);
       if (mounted) {
         savedMessage(
-            context,
-            status == 'Published'
-                ? 'Published on this device'
-                : 'Draft saved locally');
+            context, status == 'Published' ? 'Published' : 'Draft saved');
         context.replace('/record/${Uri.encodeComponent(record.id)}');
       }
     } on ArgumentError {
@@ -202,7 +200,7 @@ class _RecordEditorState extends ConsumerState<RecordEditor> {
     final r = ref.watch(teacherRepositoryProvider);
     if (invalid) return unavailable();
     return TeacherPage(
-        title: '${id == null ? 'Create' : 'Edit'} $kind',
+        title: '${id == null ? 'Create' : 'Edit'} ${displayRecordKind(kind)}',
         actions: [
           TextButton(
               onPressed: busy ? null : () => save('Draft'),
@@ -216,7 +214,8 @@ class _RecordEditorState extends ConsumerState<RecordEditor> {
             key: form,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              PageHeading('${id == null ? 'Create' : 'Edit'} $kind',
+              PageHeading(
+                  '${id == null ? 'Create' : 'Edit'} ${displayRecordKind(kind)}',
                   'Only your assigned classes are available'),
               DropdownButtonFormField<String>(
                   initialValue: classId,
@@ -245,7 +244,7 @@ class _RecordEditorState extends ConsumerState<RecordEditor> {
                           context,
                           kind == 'Assignment'
                               ? 'Instructions & submission requirements'
-                              : kind == 'Lesson'
+                              : kind == 'Lesson' || kind == 'Classwork'
                                   ? 'Objectives, activities & reflection'
                                   : 'Content & preparation notes'),
                       alignLabelWithHint: true),
@@ -289,7 +288,7 @@ class _RecordEditorState extends ConsumerState<RecordEditor> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const LText(
-                            'Notes and images • TXT, MD, PNG, JPG • 2 MB total • Stored on this device'),
+                            'Add notes or images • TXT, MD, PNG, JPG • Maximum 2 MB total'),
                         const SizedBox(height: 12),
                         for (final name in attachments.keys)
                           ListTile(
@@ -305,11 +304,8 @@ class _RecordEditorState extends ConsumerState<RecordEditor> {
                         OutlinedButton.icon(
                             onPressed: busy ? null : attach,
                             icon: const Icon(Icons.attach_file),
-                            label: const LText('Choose local files'))
+                            label: const LText('Add attachment'))
                       ])),
-              const LText(
-                  'Publishing updates this teacher workspace only. No data is sent to another app or school service.',
-                  style: TextStyle(fontSize: 12, height: 1.6))
             ])));
   }
 }
@@ -333,7 +329,7 @@ class RecordScreen extends ConsumerWidget {
         ],
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Wrap(spacing: 8, runSpacing: 8, children: [
-            Chip(label: LText(record.kind)),
+            Chip(label: LText(displayRecordKind(record.kind))),
             Chip(label: Text(record.classId)),
             Chip(label: LText(record.status))
           ]),
@@ -445,10 +441,7 @@ class _MarkingScreenState extends ConsumerState<MarkingScreen> {
           learner.id, int.parse(score.text), feedback.text.trim(), published));
       if (mounted) {
         savedMessage(
-            context,
-            published
-                ? 'Result published on this device'
-                : 'Marking draft saved');
+            context, published ? 'Result published' : 'Marking draft saved');
       }
     } finally {
       if (mounted) setState(() => busy = false);
@@ -519,9 +512,6 @@ class _MarkingScreenState extends ConsumerState<MarkingScreen> {
                             ? 'Published • Included in learner progress'
                             : 'Draft • Not included in published results'),
                         const SizedBox(height: 10),
-                        const LText(
-                            'Publishing updates local results only. No result is sent to the learner app.',
-                            style: TextStyle(fontSize: 12, height: 1.6))
                       ])))
         ]));
   }
@@ -558,7 +548,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
                 try {
                   await r.saveAttendance(widget.classId, date, statuses);
                   if (context.mounted) {
-                    savedMessage(context, 'Attendance saved on this device');
+                    savedMessage(context, 'Attendance saved');
                   }
                 } on ArgumentError {
                   if (context.mounted) {
@@ -692,8 +682,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
         title: '${widget.classId} • Class conversation',
         scroll: false,
         child: Column(children: [
-          const LText(
-              'Moderated class channel • Messages stay on this device. Responses are automated practice replies.',
+          const LText('Class channel for your assigned learners.',
               style: TextStyle(
                   fontSize: 12, color: Color(0xff64748b), height: 1.5)),
           const SizedBox(height: 16),
@@ -743,7 +732,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
                                           : const Color(0xff22334b),
                                       height: 1.6)),
                               const SizedBox(height: 8),
-                              LText('${m['time']} • Saved locally',
+                              LText('${m['time']}',
                                   style: TextStyle(
                                       fontSize: 10,
                                       color: sent

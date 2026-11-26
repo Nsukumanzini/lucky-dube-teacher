@@ -40,15 +40,15 @@ class TeachingDashboard extends StatelessWidget {
         'Submitted learner work',
         'marking',
         Icons.fact_check_outlined,
-        const Color(0xffaa7300)
+        const Color(0xff2563eb)
       ),
       (
-        'Upcoming assignments',
+        'Upcoming homework',
         '${deadlines.length}',
         'Published deadlines',
-        'assignments',
+        'work',
         Icons.assignment_outlined,
-        const Color(0xff8055d9)
+        const Color(0xff1d4ed8)
       ),
       (
         'Published lessons',
@@ -56,7 +56,7 @@ class TeachingDashboard extends StatelessWidget {
         'Ready for your classes',
         'planner',
         Icons.menu_book_outlined,
-        const Color(0xff0891a3)
+        const Color(0xff3b82f6)
       ),
     ];
     Widget agenda(String title, String subtitle, List<TeachingRecord> items,
@@ -286,8 +286,8 @@ class TeachingDashboard extends StatelessWidget {
             agenda('Teaching agenda', 'Your next published lessons', lessons,
                 'planner', Icons.calendar_month_outlined),
             const SizedBox(height: 18),
-            agenda('Assignment deadlines', 'Upcoming published class tasks',
-                deadlines, 'assignments', Icons.assignment_outlined)
+            agenda('Homework deadlines', 'Upcoming published homework',
+                deadlines, 'work', Icons.assignment_outlined)
           ])),
       const SizedBox(height: 22),
       LayoutBuilder(

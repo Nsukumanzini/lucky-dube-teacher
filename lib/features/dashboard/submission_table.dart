@@ -70,7 +70,7 @@ class SubmissionTable extends StatelessWidget {
             child: Row(children: [
               for (final c in [
                 ('Learner', 4),
-                ('Assignment', 5),
+                ('Homework', 5),
                 ('Class', 2),
                 ('Status', 4)
               ])

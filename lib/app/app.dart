@@ -71,8 +71,8 @@ class _TeacherAppState extends ConsumerState<TeacherApp> {
         title: 'Lucky Dube • Teachers',
         debugShowCheckedModeBanner: false,
         routerConfig: router,
-        locale: Locale(repo.language, 'ZA'),
-        supportedLocales: const [Locale('en', 'ZA'), Locale('zu', 'ZA')],
+        locale: const Locale('en', 'ZA'),
+        supportedLocales: const [Locale('en', 'ZA')],
         localizationsDelegates: const [
           AppLanguage.delegate,
           // ignore: deprecated_member_use

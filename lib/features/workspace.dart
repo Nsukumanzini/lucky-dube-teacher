@@ -20,8 +20,7 @@ class TeacherLogin extends ConsumerStatefulWidget {
 }
 
 class _TeacherLoginState extends ConsumerState<TeacherLogin> {
-  final id = TextEditingController(text: 'T1001'),
-      password = TextEditingController(text: 'Learn123!');
+  final id = TextEditingController(), password = TextEditingController();
   bool show = false, remember = true;
   String? error;
   @override
@@ -73,18 +72,8 @@ class _TeacherLoginState extends ConsumerState<TeacherLogin> {
               },
               child: const LText('Sign in')),
           const SizedBox(height: 24),
-          const LText('Quick sign-in',
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          const LText('Access password: Learn123!'),
-          const SizedBox(height: 10),
-          for (final t in repo.teachers)
-            OutlinedButton(
-                onPressed: () => repo.signIn(t.id, 'Learn123!', remember),
-                child: LText('${t.name} • ${t.subject}')),
           const SizedBox(height: 16),
-          const LText(
-              'Accounts and class allocations are school-managed. This workspace stores changes on this device only.',
+          const LText('Use the teacher account assigned to you by your school.',
               style: TextStyle(fontSize: 12, height: 1.5)),
           const SizedBox(height: 16),
           const LText(LocalTeacherRepository.owner,
@@ -97,7 +86,7 @@ class _TeacherLoginState extends ConsumerState<TeacherLogin> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-            actions: const [TeacherLanguage()]),
+            actions: const []),
         body: SafeArea(child: LayoutBuilder(builder: (context, box) {
           final wide = box.maxWidth >= 1000;
           final brand = Container(
@@ -174,7 +163,7 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
     'classes': 'My classes',
     'planner': 'Lesson planner',
     'resources': 'Resources',
-    'assignments': 'Assignments',
+    'work': 'Work',
     'marking': 'Marking',
     'attendance': 'Attendance',
     'results': 'Learner progress',
@@ -234,8 +223,8 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
         return recordList('Lesson');
       case 'resources':
         return recordList('Resource');
-      case 'assignments':
-        return recordList('Assignment');
+      case 'work':
+        return workHub();
       case 'announcements':
         return recordList('Announcement');
       case 'arts':
@@ -268,6 +257,41 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
   }
 
   Widget dashboard() => TeachingDashboard(repository: r, navigate: go);
+
+  Widget workHub() {
+    final classwork = filter != 'Homework';
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const PageHeading('Work',
+          'Create and organise classwork and homework for your classes.'),
+      SegmentedButton<String>(
+          segments: const [
+            ButtonSegment(
+                value: 'Classwork',
+                icon: Icon(Icons.menu_book_outlined),
+                label: Text('Classwork')),
+            ButtonSegment(
+                value: 'Homework',
+                icon: Icon(Icons.assignment_outlined),
+                label: Text('Homework')),
+          ],
+          selected: {
+            classwork ? 'Classwork' : 'Homework'
+          },
+          onSelectionChanged: (value) => setState(() {
+                filter = value.first;
+                search = '';
+              })),
+      const SizedBox(height: 20),
+      TeachingLibrary(
+          key: ValueKey(classwork ? 'classwork' : 'homework'),
+          repository: r,
+          kind: classwork ? 'Classwork' : 'Assignment',
+          hideHeading: true,
+          titleOverride: classwork ? 'Classwork' : 'Homework',
+          createLabel: classwork ? 'Create classwork' : 'Create homework'),
+    ]);
+  }
+
   Widget recordList(String kind) =>
       TeachingLibrary(key: ValueKey(kind), repository: r, kind: kind);
   Widget marking() => MarkingQueue(repository: r);
@@ -424,7 +448,7 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
                         style: const TextStyle(
                             fontSize: 13, fontWeight: FontWeight.w700)),
                     subtitle: LText(
-                        '${item.kind} • ${item.classId} • ${item.status}',
+                        '${displayRecordKind(item.kind)} • ${item.classId} • ${item.status}',
                         style: const TextStyle(fontSize: 11, color: muted)),
                     trailing: const Icon(Icons.chevron_right, size: 18),
                     onTap: () => context
@@ -453,7 +477,7 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
   Widget results() =>
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const PageHeading('Learner progress',
-            'Published marks only • Calculated from your marked assignments'),
+            'Review published marks and progress across your classes.'),
         for (final c in r.classes)
           Panel(
               c.label,
@@ -475,13 +499,11 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
   Widget messages() =>
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const PageHeading(
-            'Messages', 'School-managed channels for your assigned classes'),
+            'Messages', 'Class channels for your assigned learners'),
         const DashboardPanel(
             title: 'Class communication',
-            subtitle:
-                'Messages stay on this device. Automated practice replies are clearly labelled.',
-            child: LText(
-                'Messages are saved on this device and are not delivered to learners or staff.',
+            subtitle: 'Class discussions for your assigned classes.',
+            child: LText('Keep class communication organised in one place.',
                 style: TextStyle(fontSize: 12, color: muted, height: 1.7))),
         const SizedBox(height: 18),
         TextField(
@@ -593,13 +615,12 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
 
   Widget settings() =>
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const PageHeading('Profile & settings',
-            'Your teaching identity and local preferences'),
+        const PageHeading(
+            'Profile & settings', 'Your teaching profile and preferences'),
         Panel(
             r.teacher.name,
             LText(
                 '${r.teacher.id} • ${r.teacher.subject}\n${LocalTeacherRepository.schoolName}\nAssigned classes: ${r.teacher.classIds.join(', ')}\nAcademic year: 2026')),
-        const Panel('Language', TeacherLanguage()),
         Panel(
             'Accessibility',
             Column(children: [
@@ -614,10 +635,6 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
                     r.persist();
                   })
             ])),
-        Panel(
-            'Application information',
-            const LText(
-                'Developed and owned by Optimal Growth Technologies SA. No school endorsement is implied. Teacher and learner profiles are fictional. Changes are saved on this device only. Do not enter sensitive personal information.')),
         OutlinedButton.icon(
             onPressed: () async {
               if (await confirmLocalReset(context)) {
@@ -626,7 +643,7 @@ class _TeacherWorkspaceState extends ConsumerState<TeacherWorkspace> {
               }
             },
             icon: const Icon(Icons.restart_alt),
-            label: const LText('Reset local information')),
+            label: const LText('Reset workspace')),
         const SizedBox(height: 12),
         TextButton.icon(
             onPressed: r.signOut,

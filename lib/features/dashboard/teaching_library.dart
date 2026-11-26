@@ -12,8 +12,15 @@ import 'submission_table.dart';
 class TeachingLibrary extends StatefulWidget {
   final LocalTeacherRepository repository;
   final String kind;
+  final bool hideHeading;
+  final String? titleOverride, createLabel;
   const TeachingLibrary(
-      {super.key, required this.repository, required this.kind});
+      {super.key,
+      required this.repository,
+      required this.kind,
+      this.hideHeading = false,
+      this.titleOverride,
+      this.createLabel});
   @override
   State<TeachingLibrary> createState() => _TeachingLibraryState();
 }
@@ -40,28 +47,31 @@ class _TeachingLibraryState extends State<TeachingLibrary> {
     final pages = (filtered.length / 6).ceil().clamp(1, 999999);
     final current = page.clamp(0, pages - 1);
     final visible = filtered.skip(current * 6).take(6).toList();
-    final title = {
-      'Lesson': 'Lesson planner',
-      'Resource': 'Academic library',
-      'Assignment': 'Assignments',
-      'Announcement': 'Class announcements',
-      'Rehearsal': 'Performing arts'
-    }[kind]!;
+    final title = widget.titleOverride ??
+        ({
+          'Lesson': 'Lesson planner',
+          'Resource': 'Academic library',
+          'Assignment': 'Homework',
+          'Classwork': 'Classwork',
+          'Announcement': 'Class announcements',
+          'Rehearsal': 'Performing arts'
+        }[kind]!);
     final symbol = switch (kind) {
       'Lesson' => Icons.auto_stories_outlined,
       'Resource' => Icons.folder_outlined,
-      'Assignment' => Icons.assignment_outlined,
+      'Assignment' || 'Classwork' => Icons.assignment_outlined,
       'Rehearsal' => Icons.theater_comedy_outlined,
       _ => Icons.campaign_outlined
     };
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      PageHeading(title,
-          'Create, organise and share teaching content with your assigned classes.'),
+      if (!widget.hideHeading)
+        PageHeading(title,
+            'Create, organise and share teaching content with your assigned classes.'),
       Wrap(spacing: 10, runSpacing: 10, children: [
         FilledButton.icon(
             onPressed: () => context.push('/new/$kind'),
             icon: const Icon(Icons.add, size: 18),
-            label: LText('Create $kind')),
+            label: LText(widget.createLabel ?? 'Create $kind')),
         StatusPill(
             '${all.where((x) => x.status == 'Published').length} Published'),
         StatusPill('${all.where((x) => x.status == 'Draft').length} Draft')

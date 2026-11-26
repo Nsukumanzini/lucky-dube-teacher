@@ -1,33 +1,11 @@
 // ignore: deprecated_member_use
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../main.dart';
 import '../../app/localization/app_language.dart';
 import 'premium_surface.dart';
 
-class TeacherLanguage extends ConsumerWidget {
-  const TeacherLanguage({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final repo = ref.watch(teacherRepositoryProvider);
-    return PopupMenuButton<String>(
-        tooltip: 'Language / Ulimi',
-        onSelected: repo.setLanguage,
-        itemBuilder: (_) => const [
-              PopupMenuItem(value: 'en', child: Text('English')),
-              PopupMenuItem(value: 'zu', child: Text('isiZulu'))
-            ],
-        child: Padding(
-            padding: const EdgeInsets.all(14),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              const Icon(Icons.translate, size: 19),
-              const SizedBox(width: 6),
-              Text(repo.language == 'zu' ? 'isiZulu' : 'English',
-                  style: const TextStyle(fontSize: 12))
-            ])));
-  }
-}
+String displayRecordKind(String kind) =>
+    kind == 'Assignment' ? 'Homework' : kind;
 
 class TeacherPage extends StatelessWidget {
   final String title;
@@ -52,7 +30,7 @@ class TeacherPage extends StatelessWidget {
             }
           }),
           title: LText(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-          actions: const [TeacherLanguage()]),
+          actions: const []),
       body: SafeArea(
           child: Align(
               alignment: Alignment.topCenter,
@@ -148,17 +126,16 @@ class ActionTile extends StatelessWidget {
       onTap: onTap);
 }
 
-void savedMessage(BuildContext context,
-        [String message = 'Saved on this device']) =>
+void savedMessage(BuildContext context, [String message = 'Changes saved']) =>
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: LText(message)));
 Future<bool> confirmLocalReset(BuildContext context) async =>
     await showDialog<bool>(
         context: context,
         builder: (c) => AlertDialog(
-                title: const LText('Reset local information?'),
+                title: const LText('Reset your workspace?'),
                 content: const LText(
-                    'This removes your saved work on this device. Other teacher profiles are not changed.'),
+                    'This will remove your saved workspace information. This action cannot be undone.'),
                 actions: [
                   TextButton(
                       onPressed: () => Navigator.pop(c, false),
